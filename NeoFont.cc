@@ -215,16 +215,14 @@ int NeoFont::height() const {
 }
 
 const char *NeoFont::setAppletName(const char *n) {
-    //    std::copy(n, n + m_appletName.size(), n);
     strncpy(m_appletName.data(), n, m_appletName.size());
-    //    m_appletName[sizeof m_appletName - 1] = 0;
     m_appletName.back() = 0;
     return m_appletName.data();
 }
 
 const char *NeoFont::setAppletInfo(const char *n) {
     strncpy(m_appletInfo.data(), n, m_appletInfo.size());
-    m_appletInfo[sizeof m_appletInfo - 1] = 0;
+    m_appletInfo.back() = 0;
     return m_appletInfo.data();
 }
 
@@ -305,13 +303,8 @@ void NeoFont::clear() {
  * @return          A pointer to the character object, or zero if index is out
  * of range.
  */
-NeoCharacter *NeoFont::character(int index) {
-    if (index < 0 || index >= kNeoFontCharacterCount) {
-        return 0;
-    }
-    else {
-        return &m_characters[index];
-    }
+NeoCharacter &NeoFont::character(int index) {
+    return m_characters.at(index);
 }
 
 /** Method used to calculate how large an applet generated from the current font
@@ -467,6 +460,14 @@ unsigned int NeoFont::encodeApplet(uint8_t *data, unsigned int length) const {
     write32b(data, 0x1ca, font_info_offset + 12 - 0x1ce);
 
     return offset;
+}
+
+std::vector<char> NeoFont::encodeApplet() const {
+    std::vector<char> str;
+    str.resize(appletSize());
+
+    encodeApplet(reinterpret_cast<uint8_t *>(str.data()), str.size());
+    return str;
 }
 
 /** Method used to parse a Neo smart applet containing font data and load this

@@ -6,6 +6,7 @@
 #pragma once
 
 #include "NeoCharacter.h"
+#include <vector>
 
 constexpr size_t kNeoFontCharacterCount =
     256; /**< The number of characters in a Neo Font. */
@@ -37,11 +38,18 @@ public:
 
     void clear();
 
-    NeoCharacter *character(int index);
+    NeoCharacter &character(int index);
+
+    auto &characters() {
+        return m_characters;
+    }
 
     unsigned int appletSize() const;
     unsigned int encodeApplet(uint8_t *data, unsigned int length) const;
+    [[nodiscard]] std::vector<char> encodeApplet() const;
     bool decodeApplet(const uint8_t *data, unsigned int length);
+    template <typename Container>
+    bool decodeApplet(const Container &data);
 
     unsigned int archiveSize() const;
     void loadArchive(const uint8_t *data);
@@ -67,3 +75,9 @@ private:
     void remakeVersionString();
     int maxWidth() const;
 };
+
+template <typename Container>
+inline bool NeoFont::decodeApplet(const Container &data) {
+    return decodeApplet(reinterpret_cast<const uint8_t *>(data.data()),
+                        data.size());
+}

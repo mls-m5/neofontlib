@@ -30,15 +30,15 @@ public:
     NeoCharacter &operator=(NeoCharacter &&) = default;
     ~NeoCharacter();
 
-    int width() const;
-    int height() const;
+    [[nodiscard]] int width() const;
+    [[nodiscard]] int height() const;
 
     int setWidth(int w);
     int setHeight(int h);
 
     void clear();
 
-    int getPixel(int x, int y) const;
+    [[nodiscard]] int getPixel(int x, int y) const;
     void setPixel(int x, int y);
     void clearPixel(int x, int y);
     void flipPixel(int x, int y);
