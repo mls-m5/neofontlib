@@ -3,7 +3,7 @@
  * functions and to add editor state.
  *  @copyright  (c) 2006 Alquanto. All Rights Reserved.
  */
-#import "NeoCharacterEncoding.h"
+#include "NeoCharacterEncoding.h"
 #include <stdint.h>
 
 /** Static lookup table used to map 8 bit Neo character codes to UTF16.

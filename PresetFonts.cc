@@ -3,7 +3,11 @@
  *  @copyright  (c) 2006 Alquanto. All Rights Reserved.
  */
 
+#ifdef false
+
 #include "PresetFonts.h"
+#include "NeoFont.h"
+#include <cstdint>
 
 /** Tandy Model100 font data.
  */
@@ -513,3 +517,5 @@ bool NeoFont::initWithPreset(int n) {
 
     return (0 != data);
 }
+
+#endif

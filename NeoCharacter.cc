@@ -39,12 +39,12 @@ NeoCharacter::NeoCharacter()
 
 /** Copy constructor.
  */
-NeoCharacter::NeoCharacter(const NeoCharacter &other)
-    : m_width(other.m_width)
-    , m_height(other.m_height)
-    , m_bitmap() {
-    memcpy(m_bitmap, other.m_bitmap, sizeof m_bitmap);
-}
+// NeoCharacter::NeoCharacter(const NeoCharacter &other)
+//     : m_width(other.m_width)
+//     , m_height(other.m_height)
+//     , m_bitmap() {
+//     m_bitmap = other.m_bitmap;
+// }
 
 /** Destructor.
  */

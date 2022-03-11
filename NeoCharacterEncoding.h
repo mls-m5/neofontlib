@@ -2,11 +2,9 @@
  *  @brief      Neo font character class definition.
  *  @copyright  (c) 2006 Alquanto. All Rights Reserved.
  */
-#ifndef _NEOFONTENCODING_H_
-#define _NEOFONTENCODING_H_ (1)
+
+#pragma once
 
 #include <stdint.h>
 
-extern uint16_t NeoCharacterToUTF16(int neoCharacter);
-
-#endif // _NEOFONTENCODING_H_
+uint16_t NeoCharacterToUTF16(int neoCharacter);

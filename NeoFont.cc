@@ -5,10 +5,10 @@
 
 #include "NeoFont.h"
 #include "AppletID.h"
-#include <ctype.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <string.h>
+#include <cctype>
+#include <cstdint>
+#include <cstdio>
+#include <cstring>
 
 /* -------------------------------------------------------------------------------------------------------------------------------
  *
@@ -19,35 +19,39 @@
 
 /* Applet file definition constants.
  */
-#define kAppletOffMagic1 (0x0000)   /**< kMagic1 (big-endian, 32 bit). */
-#define kAppletOffFileSize (0x0004) /**< File size (big-endian, 32 bit). */
-#define kAppletOffID1 (0x0014)      /**< ID byte */
-#define kAppletOffID0 (0x0015)      /**< ID byte */
-#define kAppletOffControlCode                                                  \
-    (0x0142) /**< Very dubious offset to 68k lea code for data table (!). */
-#define kAppletOffFontName (0x01f2) /**< Start of zero terminated font name.   \
-                                     */
-#define kAppletOffAppletName                                                   \
-    (0x0018) /**< Start of zero terminated smart applet name (description). */
-#define kAppletOffVersionMajor (0x003c) /**< Major version number. */
-#define kAppletOffVersionMinor (0x003d) /**< Minor version number. */
-#define kAppletOffVersionBuild (0x003e) /**< Release code (letter). */
-#define kAppletOffAppletInfo                                                   \
-    (0x0040) /**< Applet information string (64 bytes long). */
+constexpr uint16_t kAppletOffMagic1(
+    0x0000); /**< kMagic1 (big-endian, 32 bit). */
+constexpr uint16_t kAppletOffFileSize(
+    0x0004); /**< File size (big-endian, 32 bit). */
+constexpr uint16_t kAppletOffID1(0x0014); /**< ID byte */
+constexpr uint16_t kAppletOffID0(0x0015); /**< ID byte */
+constexpr uint16_t kAppletOffControlCode(
+    0x0142); /**< Very dubious offset to 68k lea code for data table (!). */
+constexpr uint16_t kAppletOffFontName(
+    0x01f2); /**< Start of zero terminated font name. \
+              */
+constexpr uint16_t kAppletOffAppletName(0x0018);   /**< Start of zero terminated
+                                             smart   applet name (description). */
+constexpr uint16_t kAppletOffVersionMajor(0x003c); /**< Major version number. */
+constexpr uint16_t kAppletOffVersionMinor(0x003d); /**< Minor version number. */
+constexpr uint16_t kAppletOffVersionBuild(
+    0x003e); /**< Release code (letter). */
+constexpr uint16_t kAppletOffAppletInfo(
+    0x0040); /**< Applet information string (64 bytes long). */
 
-#define kAppletRelOffFontHeight                                                \
-    (0x00) /**< Offset to font height, relative to 16 byte font info           \
-              structure. */
-#define kAppletRelOffWidthTable                                                \
-    (0x04) /**< Offset to 8 bute font width table, relative to font info       \
-              structure. */
-#define kAppletRelOffLocationTable                                             \
-    (0x08) /**< Offset to 16 bit bit data offset table, relative to font info  \
-              structure. */
-#define kAppletRelOffBitmaps                                                   \
-    (0x0c) /**< Start of font bitmap data, relative to font info structure. */
+constexpr uint16_t kAppletRelOffFontHeight(
+    0x00); /**< Offset to font height, relative to 16
+         byte font info           \ structure. */
+constexpr uint16_t kAppletRelOffWidthTable(
+    0x04); /**< Offset to 8 bute font width table,
+         relative to font info       \ structure. */
+constexpr uint16_t kAppletRelOffLocationTable(
+    0x08); /**< Offset to 16 bit bit data offset table, relative to font info
+             \ structure. */
+constexpr uint16_t kAppletRelOffBitmaps(0x0c); /**< Start of font bitmap data,
+                                         relative to font info structure. */
 
-#define kMagic1 (0xc0ffeeadu) /**< Value for kAppletOffMagic. */
+constexpr uint64_t kMagic1 = (0xc0ffeeadu); /**< Value for kAppletOffMagic. */
 
 /* Helper macros used to decode big-endian values from a byte array.
  */
@@ -191,7 +195,7 @@ const char *NeoFont::fontName() const {
  *  @return         A pointer to a C-string describing the version.
  */
 const char *NeoFont::version() const {
-    return m_versionString;
+    return m_versionString.data();
 }
 
 /** Get Unique ID.
@@ -210,24 +214,18 @@ int NeoFont::height() const {
     return m_height;
 }
 
-/** Set the name of the applet.
- *
- *  @param  n          The name to use.
- */
 const char *NeoFont::setAppletName(const char *n) {
-    strncpy(m_appletName, n, sizeof m_appletName);
-    m_appletName[sizeof m_appletName - 1] = 0;
-    return m_appletName;
+    //    std::copy(n, n + m_appletName.size(), n);
+    strncpy(m_appletName.data(), n, m_appletName.size());
+    //    m_appletName[sizeof m_appletName - 1] = 0;
+    m_appletName.back() = 0;
+    return m_appletName.data();
 }
 
-/** Set the applet's info text.
- *
- *  @param  n          The name to use.
- */
 const char *NeoFont::setAppletInfo(const char *n) {
-    strncpy(m_appletInfo, n, sizeof m_appletInfo);
+    strncpy(m_appletInfo.data(), n, m_appletInfo.size());
     m_appletInfo[sizeof m_appletInfo - 1] = 0;
-    return m_appletInfo;
+    return m_appletInfo.data();
 }
 
 /** Set the name of the font and implicitly the name of the applet.
@@ -235,13 +233,13 @@ const char *NeoFont::setAppletInfo(const char *n) {
  *  @param  n          The name to use.
  */
 const char *NeoFont::setFontName(const char *n) {
-    strncpy(m_fontName, n, sizeof m_fontName);
+    strncpy(m_fontName.data(), n, sizeof m_fontName);
     m_fontName[sizeof m_fontName - 1] = 0;
-    strncpy(m_appletName, "Neo Font - ", sizeof m_appletName);
-    strncat(m_appletName,
-            m_fontName,
-            sizeof m_appletName - 1 - strlen(m_appletName));
-    return m_fontName;
+    strncpy(m_appletName.data(), "Neo Font - ", sizeof m_appletName);
+    strncat(m_appletName.data(),
+            m_fontName.data(),
+            sizeof m_appletName - 1 - strlen(m_appletName.data()));
+    return m_fontName.data();
 }
 
 /** Set the version from a string.
@@ -259,7 +257,7 @@ const char *NeoFont::setVersion(const char *v) {
     m_versionMinor = minor & 255;
     m_versionBuild = bc;
     remakeVersionString();
-    return m_versionString;
+    return m_versionString.data();
 }
 
 /** Set Unique ID.
@@ -371,16 +369,16 @@ unsigned int NeoFont::encodeApplet(uint8_t *data, unsigned int length) const {
     data[kAppletOffVersionBuild] = (uint8_t)m_versionBuild;
 
     // Overlay the applet name.
-    for (unsigned int i = 0; i < strlen(m_appletName) && i < 31; i++)
+    for (unsigned int i = 0; i < strlen(m_appletName.data()) && i < 31; i++)
         data[i + kAppletOffAppletName] = m_appletName[i];
 
     // Overlay the info string.
-    for (unsigned int i = 0; i < strlen(m_appletInfo) && i < 63; i++)
+    for (unsigned int i = 0; i < strlen(m_appletInfo.data()) && i < 63; i++)
         data[i + kAppletOffAppletInfo] = m_appletInfo[i];
 
     // Append the font name string and pad to the next word boundary.
     unsigned int offset = sizeof file_prefix;
-    for (unsigned int i = 0; i < strlen(m_fontName); i++)
+    for (unsigned int i = 0; i < strlen(m_fontName.data()); i++)
         data[offset++] = m_fontName[i];
     data[offset++] = 0;
     while ((offset % 2) != 0)
@@ -580,7 +578,7 @@ unsigned int NeoFont::archiveSize() const {
  *  @return     A pointer to an array of bytes defining the character.
  */
 void NeoFont::saveArchive(uint8_t *data) const {
-    memcpy(data, (void *)this, sizeof *this);
+    std::memcpy(data, (void *)this, sizeof *this);
 }
 
 /** Load raw font data.
@@ -608,15 +606,15 @@ void NeoFont::remakeVersionString() {
         m_versionBuild = '?';
 
     if (' ' == m_versionBuild) {
-        snprintf(m_versionString,
-                 sizeof m_versionString,
+        snprintf(m_versionString.data(),
+                 m_versionString.size(),
                  "%d.%d",
                  m_versionMajor,
                  m_versionMinor);
     }
     else {
-        snprintf(m_versionString,
-                 sizeof m_versionString,
+        snprintf(m_versionString.data(),
+                 m_versionString.size(),
                  "%d.%d%c",
                  m_versionMajor,
                  m_versionMinor,

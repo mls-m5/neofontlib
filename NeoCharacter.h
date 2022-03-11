@@ -2,24 +2,32 @@
  *  @brief      Neo font character object header file.
  *  @copyright  (c) 2006 Alquanto. All Rights Reserved.
  */
-#ifndef _NEOCHARACTER_H_
-#define _NEOCHARACTER_H_ (1)
+#pragma once
+
+#include <array>
+#include <cstddef>
 
 /* Limits.
  */
-#define kNeoCharacterMaxWidth                                                  \
-    (128) /**< Maximum width of a single character, in pixels. */
-#define kNeoCharacterMinWidth                                                  \
-    (1) /**< Minimum width of a single character, in pixels. */
-#define kNeoCharacterMinHeight (1)  /**< Minimum font height, in pixels. */
-#define kNeoCharacterMaxHeight (66) /**< Maximum font height, in pixels. */
+constexpr size_t kNeoCharacterMaxWidth =
+    128; //< Maximum width of a single character, in pixels.
+constexpr size_t kNeoCharacterMinWidth =
+    1; //< Minimum width of a single character, in pixels.
+constexpr size_t kNeoCharacterMinHeight =
+    1; /**< Minimum font height, in pixels. */
+constexpr size_t kNeoCharacterMaxHeight =
+    66; /**< Maximum font height, in pixels. */
 
 /** Class used to code a single character.
  */
 class NeoCharacter {
 public:
     NeoCharacter();
-    NeoCharacter(const NeoCharacter &other);
+    //    NeoCharacter(const NeoCharacter &other);
+    NeoCharacter(const NeoCharacter &) = default;
+    NeoCharacter(NeoCharacter &&) = default;
+    NeoCharacter &operator=(const NeoCharacter &) = default;
+    NeoCharacter &operator=(NeoCharacter &&) = default;
     ~NeoCharacter();
 
     int width() const;
@@ -57,8 +65,7 @@ private:
     /** Bitmap of character data. This is treated as an array of pixels, one bit
      * per pixel.
      */
-    uint8_t
-        m_bitmap[((kNeoCharacterMaxWidth * kNeoCharacterMaxHeight) + 7) / 8];
+    std::array<uint8_t,
+               ((kNeoCharacterMaxWidth * kNeoCharacterMaxHeight) + 7) / 8>
+        m_bitmap;
 };
-
-#endif // _NEOCHARACTER_H_

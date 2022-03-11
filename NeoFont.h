@@ -3,19 +3,22 @@
  *  @copyright  (c) 2006 Alquanto. All Rights Reserved.
  */
 
-#ifndef _NEOFONT_H_
-#define _NEOFONT_H_ (1)
+#pragma once
 
 #include "NeoCharacter.h"
 
-#define kNeoFontCharacterCount                                                 \
-    (256) /**< The number of characters in a Neo Font. */
+constexpr size_t kNeoFontCharacterCount =
+    256; /**< The number of characters in a Neo Font. */
 
 /** Class describing a complete font.
  */
 class NeoFont {
 public:
     NeoFont();
+    NeoFont(const NeoFont &) = default;
+    NeoFont(NeoFont &&) = default;
+    NeoFont &operator=(const NeoFont &) = default;
+    NeoFont &operator=(NeoFont &&) = default;
     ~NeoFont();
 
     const char *appletName() const;
@@ -50,20 +53,17 @@ private:
      * implementation that will need to be significantly more complex if
      * pointers are used.
      */
-    char m_appletName[36]; /**< The name of the applet (seen in AS Manager). */
-    char m_appletInfo[60]; /**< The applet information (copyright) text. */
-    char m_fontName[24];   /**< The name of the font (seen on the Neo). */
-    int m_versionMajor;    /**< Major version number. */
-    int m_versionMinor;    /**< Minor version number. */
-    int m_versionBuild;    /**< Build code (ASCII character). */
-    char m_versionString[16]; /**< Cached version string. */
-    int m_ident;              /**< 16 bit Unique ID code. */
-    int m_height;             /**< Font height (pixels) */
-    NeoCharacter m_characters[kNeoFontCharacterCount]; /**< Array of character
-                                                          definitions. */
+    std::array<char, 36> m_appletName; // Name seen in AS manager
+    std::array<char, 60> m_appletInfo; // Copyright text
+    std::array<char, 24> m_fontName;   // Name visible on neo
+    int m_versionMajor;
+    int m_versionMinor;
+    int m_versionBuild;                   /**< Build code (ASCII character). */
+    std::array<char, 16> m_versionString; /**< Cached version string. */
+    int m_ident;                          /**< 16 bit Unique ID code. */
+    int m_height;                         /**< Font height (pixels) */
+    std::array<NeoCharacter, kNeoFontCharacterCount> m_characters;
 
     void remakeVersionString();
     int maxWidth() const;
 };
-
-#endif // _FONT_DEFINITION_H_
