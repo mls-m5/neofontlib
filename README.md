@@ -1,6 +1,6 @@
 neofonteditor
 =============
 
-A font editor for the AphaSmart Neo and Neo 2.
+Library for editing AlphaSmart neo fonts 
 
-Heavily edited from https://github.com/tSoniq/neofonteditor
+Based on the works of https://github.com/tSoniq/neofonteditor
