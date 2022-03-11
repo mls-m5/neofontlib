@@ -20,7 +20,7 @@ target_include_directories(
 
 add_executable(
     neo_font_test
-    test/main.cpp
+    test/test_main.cpp
     )
 
 target_link_libraries(

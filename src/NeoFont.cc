@@ -3,8 +3,8 @@
  *  @copyright  (c) 2006 Alquanto. All Rights Reserved.
  */
 
-#include "NeoFont.h"
-#include "AppletID.h"
+#include "neofontlib/NeoFont.h"
+#include "neofontlib/AppletID.h"
 #include <cctype>
 #include <cstdint>
 #include <cstdio>

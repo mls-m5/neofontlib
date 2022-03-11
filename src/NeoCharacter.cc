@@ -3,7 +3,7 @@
  *  @copyright  (c) 2006 Alquanto. All Rights Reserved.
  */
 
-#include "NeoCharacter.h"
+#include "neofontlib/NeoCharacter.h"
 #include <stdint.h>
 #include <string.h>
 
@@ -13,7 +13,10 @@
  *  @param  y       Pixel y-coordinate.
  *  @return         The byte index.
  */
-#define XY_TO_BYTE(x, y) (((x) + ((y)*kNeoCharacterMaxWidth)) / 8)
+constexpr char XY_TO_BYTE(char x, char y) {
+    return (((x) + ((y)*kNeoCharacterMaxWidth)) / 8);
+}
+//#define XY_TO_BYTE(x, y) (((x) + ((y)*kNeoCharacterMaxWidth)) / 8)
 
 /** Helper macro used to translate (x,y) coordinates to a bit index within a
  * byte.
@@ -22,11 +25,19 @@
  *  @param  y       Pixel y-coordinate.
  *  @return         The bit index.
  */
-#if (0 == (kNeoCharacterMaxWidth & 7))
-#define XY_TO_BIT(x, y) ((x)&7)
-#else
-#define XY_TO_BIT(x, y) (((x) + ((y)*kNeoCharacterMaxWidth)) & 7)
-#endif
+constexpr char XY_TO_BIT(char x, char y) {
+    if constexpr (0 == (kNeoCharacterMaxWidth & 7)) {
+        return ((x)&7);
+    }
+    else {
+        return (((x) + ((y)*kNeoCharacterMaxWidth)) & 7);
+    }
+}
+//#if (0 == (kNeoCharacterMaxWidth & 7))
+//#define XY_TO_BIT(x, y) ((x)&7)
+//#else
+//#define XY_TO_BIT(x, y) (((x) + ((y)*kNeoCharacterMaxWidth)) & 7)
+//#endif
 
 /** Class constructor.
  */
