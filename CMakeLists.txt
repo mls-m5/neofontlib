@@ -5,15 +5,22 @@ project(neo_font_editor)
 add_library(
     neo_font_lib
     STATIC
-    NeoCharacter.cc
-    NeoCharacterEncoding.cc
-    NeoFont.cc
-    PresetFonts.cc
+    src/NeoCharacter.cc
+    src/NeoCharacterEncoding.cc
+    src/NeoFont.cc
+    )
+
+target_include_directories(
+    neo_font_lib
+    PUBLIC
+    include
+    PRIVATE
+    src
     )
 
 add_executable(
     neo_font_test
-    main.cpp
+    test/main.cpp
     )
 
 target_link_libraries(
