@@ -8,13 +8,13 @@
 #include "NeoCharacter.h"
 #include <vector>
 
-constexpr size_t kNeoFontCharacterCount =
-    256; /**< The number of characters in a Neo Font. */
-
 /** Class describing a complete font.
  */
 class NeoFont {
 public:
+    static constexpr size_t charCount =
+        256; /**< The number of characters in a Neo Font. */
+
     NeoFont();
     NeoFont(const NeoFont &) = default;
     NeoFont(NeoFont &&) = default;
@@ -70,7 +70,7 @@ private:
     std::array<char, 16> m_versionString; /**< Cached version string. */
     int m_ident;                          /**< 16 bit Unique ID code. */
     int m_height;                         /**< Font height (pixels) */
-    std::array<NeoCharacter, kNeoFontCharacterCount> m_characters;
+    std::array<NeoCharacter, charCount> m_characters;
 
     void remakeVersionString();
     int maxWidth() const;

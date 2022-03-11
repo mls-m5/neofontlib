@@ -7,22 +7,17 @@
 #include <array>
 #include <cstddef>
 
-/// Limits.
-//< Maximum width of a single character, in pixels.
-constexpr size_t kNeoCharacterMaxWidth = 128;
-//< Minimum width of a single character, in pixels.
-constexpr size_t kNeoCharacterMinWidth = 1;
-/**< Minimum font height, in pixels. */
-constexpr size_t kNeoCharacterMinHeight = 1;
-/**< Maximum font height, in pixels. */
-constexpr size_t kNeoCharacterMaxHeight = 66;
-
 /** Class used to code a single character.
  */
 class NeoCharacter {
 public:
+    /// Limits. in pixels
+    static constexpr size_t minWidth = 1;
+    static constexpr size_t maxWidth = 128;
+    static constexpr size_t minHeight = 1;
+    static constexpr size_t maxHexght = 66;
+
     NeoCharacter();
-    //    NeoCharacter(const NeoCharacter &other);
     NeoCharacter(const NeoCharacter &) = default;
     NeoCharacter(NeoCharacter &&) = default;
     NeoCharacter &operator=(const NeoCharacter &) = default;
@@ -58,13 +53,12 @@ private:
      * implementation that will need to be significantly more complex if
      * pointers are used.
      */
-    int m_width;  /**< Character width, in pixels. */
-    int m_height; /**< Character height, in pixels. */
 
-    /** Bitmap of character data. This is treated as an array of pixels, one bit
-     * per pixel.
-     */
-    std::array<uint8_t,
-               ((kNeoCharacterMaxWidth * kNeoCharacterMaxHeight) + 7) / 8>
-        m_bitmap;
+    // In pixels:
+    int m_width;
+    int m_height;
+
+    // Bitmap of character data. This is treated as an array of pixels, one bit
+    // per pixel.
+    std::array<uint8_t, ((maxWidth * maxHexght) + 7) / 8> m_bitmap;
 };

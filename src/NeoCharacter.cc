@@ -14,9 +14,8 @@
  *  @return         The byte index.
  */
 constexpr char XY_TO_BYTE(char x, char y) {
-    return (((x) + ((y)*kNeoCharacterMaxWidth)) / 8);
+    return (((x) + ((y)*NeoCharacter::maxWidth)) / 8);
 }
-//#define XY_TO_BYTE(x, y) (((x) + ((y)*kNeoCharacterMaxWidth)) / 8)
 
 /** Helper macro used to translate (x,y) coordinates to a bit index within a
  * byte.
@@ -26,21 +25,14 @@ constexpr char XY_TO_BYTE(char x, char y) {
  *  @return         The bit index.
  */
 constexpr char XY_TO_BIT(char x, char y) {
-    if constexpr (0 == (kNeoCharacterMaxWidth & 7)) {
+    if constexpr (0 == (NeoCharacter::maxWidth & 7)) {
         return ((x)&7);
     }
     else {
-        return (((x) + ((y)*kNeoCharacterMaxWidth)) & 7);
+        return (((x) + ((y)*NeoCharacter::maxWidth)) & 7);
     }
 }
-//#if (0 == (kNeoCharacterMaxWidth & 7))
-//#define XY_TO_BIT(x, y) ((x)&7)
-//#else
-//#define XY_TO_BIT(x, y) (((x) + ((y)*kNeoCharacterMaxWidth)) & 7)
-//#endif
 
-/** Class constructor.
- */
 NeoCharacter::NeoCharacter()
     : m_width(8)
     , m_height(8)
@@ -48,11 +40,7 @@ NeoCharacter::NeoCharacter()
     clear();
 }
 
-/** Destructor.
- */
-NeoCharacter::~NeoCharacter() {
-    // Nothing.
-}
+NeoCharacter::~NeoCharacter() {}
 
 /** Obtain the width of a character.
  *
@@ -76,10 +64,10 @@ int NeoCharacter::height() const {
  *  @return         The actual width used.
  */
 int NeoCharacter::setWidth(int w) {
-    if (w > kNeoCharacterMaxWidth)
-        w = kNeoCharacterMaxWidth;
-    if (w < kNeoCharacterMinWidth)
-        w = kNeoCharacterMinWidth;
+    if (w > maxWidth)
+        w = maxWidth;
+    if (w < minWidth)
+        w = minWidth;
     m_width = w;
     return m_width;
 }
@@ -90,10 +78,10 @@ int NeoCharacter::setWidth(int w) {
  *  @return         The actual height used.
  */
 int NeoCharacter::setHeight(int h) {
-    if (h > kNeoCharacterMaxHeight)
-        h = kNeoCharacterMaxHeight;
-    if (h < kNeoCharacterMinHeight)
-        h = kNeoCharacterMinHeight;
+    if (h > maxHexght)
+        h = maxHexght;
+    if (h < minHeight)
+        h = minHeight;
     if (h > m_height) {
         for (int y = m_height; y < h; y++) {
             for (int x = 0; x < m_width; x++) {

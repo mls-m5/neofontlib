@@ -274,12 +274,12 @@ int NeoFont::setIdent(int id) {
  * applied.
  */
 int NeoFont::setHeight(int h) {
-    if (h < kNeoCharacterMinHeight)
-        h = kNeoCharacterMinHeight;
-    if (h > kNeoCharacterMaxHeight)
-        h = kNeoCharacterMaxHeight;
+    if (h < NeoCharacter::minHeight)
+        h = NeoCharacter::minHeight;
+    if (h > NeoCharacter::maxHexght)
+        h = NeoCharacter::maxHexght;
 
-    for (unsigned int i = 0; i < kNeoFontCharacterCount; i++) {
+    for (unsigned int i = 0; i < charCount; i++) {
         m_characters[i].setHeight(h);
     }
 
@@ -291,7 +291,7 @@ int NeoFont::setHeight(int h) {
  * default width applied. The height is left unchanged.
  */
 void NeoFont::clear() {
-    for (unsigned int i = 0; i < sizeof kNeoFontCharacterCount; i++) {
+    for (unsigned int i = 0; i < sizeof charCount; i++) {
         m_characters[i].setWidth(8);
         m_characters[i].clear();
     }
@@ -319,13 +319,13 @@ unsigned int NeoFont::appletSize() const {
     size += strlen(fontName()) +
             1; // Name string, rounded to next higher number of words
     while ((size % 2) != 0)
-        size++;                         // Pad to next word boundary
-    size += kNeoFontCharacterCount;     // Width table
-    size += kNeoFontCharacterCount * 2; // Offset table
+        size++;            // Pad to next word boundary
+    size += charCount;     // Width table
+    size += charCount * 2; // Offset table
     unsigned int bytes_per_column =
         ((height() + 7) /
          8); // Number of bytes for pixel column (common to all characters)
-    for (unsigned int i = 0; i < kNeoFontCharacterCount; i++)
+    for (unsigned int i = 0; i < charCount; i++)
         size += ((m_characters[i]).width()) *
                 bytes_per_column; // Per character sizes
     while ((size % 4) != 0)
@@ -380,7 +380,7 @@ unsigned int NeoFont::encodeApplet(uint8_t *data, unsigned int length) const {
     // Append the bitmap data.
     unsigned int bytes_per_column = ((height() + 7) / 8);
     unsigned int bitmap_offset = offset;
-    for (unsigned int i = 0; i < kNeoFontCharacterCount; i++) {
+    for (unsigned int i = 0; i < charCount; i++) {
         unsigned int width = m_characters[i].width();
         unsigned int byte_count = bytes_per_column * m_characters[i].width();
         for (unsigned int byte = 0; byte < byte_count; byte++) {
@@ -401,13 +401,13 @@ unsigned int NeoFont::encodeApplet(uint8_t *data, unsigned int length) const {
 
     // Append the character width table.
     unsigned int width_table_offset = offset;
-    for (unsigned int i = 0; i < kNeoFontCharacterCount; i++)
+    for (unsigned int i = 0; i < charCount; i++)
         data[offset++] = m_characters[i].width();
 
     // Append the bitmap offset table.
     unsigned int location_table_offset = offset;
     unsigned int temp_offset = 0;
-    for (unsigned int i = 0; i < kNeoFontCharacterCount; i++) {
+    for (unsigned int i = 0; i < charCount; i++) {
         data[offset++] = (temp_offset / 256) & 255;
         data[offset++] = temp_offset & 255;
         temp_offset += bytes_per_column * m_characters[i].width();
@@ -544,7 +544,7 @@ bool NeoFont::decodeApplet(const uint8_t *data, unsigned int length) {
     clear(); // Reset all bitmaps to empty so we only need to program 'set'
              // pixels.
 
-    for (unsigned int i = 0; i < kNeoFontCharacterCount; i++) {
+    for (unsigned int i = 0; i < charCount; i++) {
         unsigned int character_width = XB8(data, (width_table + i));
         unsigned int offset = XB16(data, (location_table + (i * 2)));
         unsigned int bits = bitmap_start + offset;
@@ -629,7 +629,7 @@ void NeoFont::remakeVersionString() {
  */
 int NeoFont::maxWidth() const {
     int max_width = 0;
-    for (unsigned int i = 0; i < kNeoFontCharacterCount; i++) {
+    for (unsigned int i = 0; i < charCount; i++) {
         int width = m_characters[i].width();
         if (width > max_width)
             max_width = width;
