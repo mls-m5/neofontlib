@@ -9,5 +9,4 @@
 
 extern uint16_t NeoCharacterToUTF16(int neoCharacter);
 
-
-#endif  // _NEOFONTENCODING_H_
+#endif // _NEOFONTENCODING_H_

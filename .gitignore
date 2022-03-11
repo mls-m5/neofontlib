@@ -7,3 +7,11 @@
 
 # Xcode user-specific state
 *.xcuserdatad
+
+*.cflags
+*.config
+*.creator
+*.cxxflags
+*.files
+*.includes
+
