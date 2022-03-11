@@ -7,16 +7,15 @@
 #include <array>
 #include <cstddef>
 
-/* Limits.
- */
-constexpr size_t kNeoCharacterMaxWidth =
-    128; //< Maximum width of a single character, in pixels.
-constexpr size_t kNeoCharacterMinWidth =
-    1; //< Minimum width of a single character, in pixels.
-constexpr size_t kNeoCharacterMinHeight =
-    1; /**< Minimum font height, in pixels. */
-constexpr size_t kNeoCharacterMaxHeight =
-    66; /**< Maximum font height, in pixels. */
+/// Limits.
+//< Maximum width of a single character, in pixels.
+constexpr size_t kNeoCharacterMaxWidth = 128;
+//< Minimum width of a single character, in pixels.
+constexpr size_t kNeoCharacterMinWidth = 1;
+/**< Minimum font height, in pixels. */
+constexpr size_t kNeoCharacterMinHeight = 1;
+/**< Maximum font height, in pixels. */
+constexpr size_t kNeoCharacterMaxHeight = 66;
 
 /** Class used to code a single character.
  */
