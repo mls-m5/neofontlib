@@ -28,4 +28,7 @@ target_link_libraries(
     neo_font_lib
     )
 
-target_compile_features(neo_font_lib PUBLIC cxx_std_17)
+target_compile_features(
+    neo_font_lib
+    PUBLIC
+    cxx_std_17)
