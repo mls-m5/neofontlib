@@ -13,7 +13,7 @@
  *  @param  y       Pixel y-coordinate.
  *  @return         The byte index.
  */
-constexpr char XY_TO_BYTE(char x, char y) {
+constexpr int XY_TO_BYTE(char x, char y) {
     return (((x) + ((y)*NeoCharacter::maxWidth)) / 8);
 }
 
