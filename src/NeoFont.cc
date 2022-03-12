@@ -307,6 +307,26 @@ NeoCharacter &NeoFont::character(int index) {
     return m_characters.at(index);
 }
 
+const NeoCharacter &NeoFont::character(int index) const {
+    return m_characters.at(index);
+}
+
+const NeoCharacter *NeoFont::begin() const {
+    return &m_characters.front();
+}
+
+const NeoCharacter *NeoFont::end() const {
+    return &m_characters.front() + m_characters.size();
+}
+
+NeoCharacter *NeoFont::begin() {
+    return &m_characters.front();
+}
+
+NeoCharacter *NeoFont::end() {
+    return &m_characters.front() + m_characters.size();
+}
+
 /** Method used to calculate how large an applet generated from the current font
  * definition will be. This depends on many thing, but most notably the widths
  * and heights of the characters.

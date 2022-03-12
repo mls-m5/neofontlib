@@ -39,10 +39,16 @@ public:
     void clear();
 
     NeoCharacter &character(int index);
+    const NeoCharacter &character(int index) const;
 
     auto &characters() {
         return m_characters;
     }
+
+    const NeoCharacter *begin() const;
+    const NeoCharacter *end() const;
+    NeoCharacter *begin();
+    NeoCharacter *end();
 
     unsigned int appletSize() const;
     unsigned int encodeApplet(uint8_t *data, unsigned int length) const;
