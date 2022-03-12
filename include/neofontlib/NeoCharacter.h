@@ -55,10 +55,10 @@ private:
      */
 
     // In pixels:
-    int m_width;
-    int m_height;
+    int m_width = 8;
+    int m_height = 8;
 
     // Bitmap of character data. This is treated as an array of pixels, one bit
     // per pixel.
-    std::array<uint8_t, ((maxWidth * maxHexght) + 7) / 8> m_bitmap;
+    std::array<uint8_t, ((maxWidth * maxHexght) + 7) / 8> m_bitmap = {};
 };

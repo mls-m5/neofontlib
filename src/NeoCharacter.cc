@@ -33,10 +33,7 @@ constexpr char XY_TO_BIT(char x, char y) {
     }
 }
 
-NeoCharacter::NeoCharacter()
-    : m_width(8)
-    , m_height(8)
-    , m_bitmap() {
+NeoCharacter::NeoCharacter() {
     clear();
 }
 
@@ -97,9 +94,7 @@ int NeoCharacter::setHeight(int h) {
 /** Clear all pixels in the character.
  */
 void NeoCharacter::clear() {
-    for (unsigned int i = 0; i < sizeof m_bitmap; i++) {
-        m_bitmap[i] = 0;
-    }
+    m_bitmap.fill(0);
 }
 
 /** Read a pixel.
@@ -127,6 +122,9 @@ int NeoCharacter::getPixel(int x, int y) const {
 void NeoCharacter::setPixel(int x, int y) {
     if (x >= 0 && x < m_width && y >= 0 && y < m_height) {
         m_bitmap[XY_TO_BYTE(x, y)] |= (1u << XY_TO_BIT(x, y));
+    }
+    else {
+        throw std::out_of_range{"pixel out of range"};
     }
 }
 
