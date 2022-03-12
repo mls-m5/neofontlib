@@ -36,16 +36,15 @@ int main(int argc, char *argv[]) {
     auto path = args.at(1);
 
     auto content = loadFile(path);
-
     if (content.empty()) {
-        std::cerr << "could not open file " << path << "\n";
+        std::cerr << "could not load file " << path << "\n";
         return 1;
     }
 
     font.decodeApplet(content);
 
     for (size_t i = 0; i < font.characters().size(); ++i) {
-        std::cout << "character " << static_cast<char>(i) << "\n";
+        std::cout << "character " << i << " " << static_cast<char>(i) << "\n";
         auto &c = font.character(i);
         printChar(c);
     }
