@@ -4,6 +4,7 @@
  */
 
 #include "neofontlib/NeoCharacter.h"
+#include <stdexcept>
 #include <stdint.h>
 #include <string.h>
 
