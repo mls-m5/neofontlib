@@ -27,7 +27,7 @@ constexpr int XY_TO_BYTE(char x, char y) {
  */
 constexpr char XY_TO_BIT(char x, char y) {
     if constexpr (0 == (NeoCharacter::maxWidth & 7)) {
-        return ((x)&7);
+        return ((x) & 7);
     }
     else {
         return (((x) + ((y)*NeoCharacter::maxWidth)) & 7);

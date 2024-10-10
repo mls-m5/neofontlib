@@ -55,11 +55,21 @@ constexpr uint64_t kMagic1 = (0xc0ffeeadu); /**< Value for kAppletOffMagic. */
 
 /* Helper macros used to decode big-endian values from a byte array.
  */
-#define XB8(a, x) ((unsigned)a[x])
-#define XB16(a, x) ((((unsigned)a[x]) << 8) | (((unsigned)a[x + 1]) << 0))
-#define XB32(a, x)                                                             \
-    ((((unsigned)a[x]) << 24) | (((unsigned)a[x + 1]) << 16) |                 \
-     (((unsigned)a[x + 2]) << 8) | (((unsigned)a[x + 3]) << 0))
+constexpr uint8_t XB8(const uint8_t *a, size_t x) {
+    return static_cast<uint8_t>(a[x]);
+}
+
+constexpr uint16_t XB16(const uint8_t *a, size_t x) {
+    return static_cast<uint16_t>((static_cast<uint16_t>(a[x]) << 8) |
+                                 static_cast<uint16_t>(a[x + 1]));
+}
+
+constexpr uint32_t XB32(const uint8_t *a, size_t x) {
+    return static_cast<uint32_t>((static_cast<uint32_t>(a[x]) << 24) |
+                                 (static_cast<uint32_t>(a[x + 1]) << 16) |
+                                 (static_cast<uint32_t>(a[x + 2]) << 8) |
+                                 static_cast<uint32_t>(a[x + 3]));
+}
 
 /* -------------------------------------------------------------------------------------------------------------------------------
  *
