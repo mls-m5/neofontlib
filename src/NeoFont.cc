@@ -509,18 +509,18 @@ std::vector<char> NeoFont::encodeApplet() const {
  * otherwise.
  */
 bool NeoFont::decodeApplet(const uint8_t *data, unsigned int length) {
-    /* Check the magic number at the start of the file.
-     */
+    // Check the magic number at the start of the file.
     unsigned int magic = XB32(data, kAppletOffMagic1);
     if (magic != kMagic1) {
-        return false; // Unexpected magic number
+        // Unexpected magic number
+        return false;
     }
 
-    /* Check the file length.
-     */
+    // Check the file length.
     unsigned int filesize = XB32(data, kAppletOffFileSize);
     if (filesize != length) {
-        return false; // Applet file size does not match supplied file size
+        // Applet file size does not match supplied file size
+        return false;
     }
 
     /* Try to decode the instructions that contain the address of the font data
@@ -535,7 +535,8 @@ bool NeoFont::decodeApplet(const uint8_t *data, unsigned int length) {
     unsigned int code4 = XB8(data, 0x014b);  //      <offset>
 
     if ((code0 != 0x207c) || (code2 != 0x41fb) || (code3 != 0x88)) {
-        return false; // The code is not what was expected...
+        // The code is not what was expected...
+        return false;
     }
 
     int pc_rel_offset = (code4 < 128) ? (code4) : (code4 - 256);
@@ -553,15 +554,12 @@ bool NeoFont::decodeApplet(const uint8_t *data, unsigned int length) {
     setAppletName((const char *)&data[kAppletOffAppletName]);
     setAppletInfo((const char *)&data[kAppletOffAppletInfo]);
     if (strlen(appletName()) > 11) {
-        setFontName(
-            (const char *)&data[kAppletOffAppletName +
-                                11]); // Derive font name from applet name
+        // Derive font name from applet name
+        setFontName((const char *)&data[kAppletOffAppletName + 11]);
     }
     else {
-        setFontName(
-            (const char
-                 *)&data[kAppletOffFontName]); // Else use embedded font name if
-                                               // applet name too short
+        // Else use embedded font name if applet name too short
+        setFontName((const char *)&data[kAppletOffFontName]);
     }
 
     m_versionMajor = data[kAppletOffVersionMajor];
@@ -602,22 +600,6 @@ bool NeoFont::decodeApplet(const uint8_t *data, unsigned int length) {
  */
 unsigned int NeoFont::archiveSize() const {
     return sizeof *this;
-}
-
-/** Return a pointer to the raw font data.
- *
- *  @return     A pointer to an array of bytes defining the character.
- */
-void NeoFont::saveArchive(uint8_t *data) const {
-    std::memcpy(data, (void *)this, sizeof *this);
-}
-
-/** Load raw font data.
- *
- *  @param  data    The data to load. This must contain archiveSize() bytes.
- */
-void NeoFont::loadArchive(const uint8_t *data) {
-    memcpy((void *)this, data, sizeof *this);
 }
 
 /** Update the cached ASCII version string from the numeric valus. This is a

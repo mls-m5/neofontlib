@@ -12,8 +12,8 @@
  */
 class NeoFont {
 public:
-    static constexpr size_t charCount =
-        256; /**< The number of characters in a Neo Font. */
+    // The number of characters in a Neo Font.
+    static constexpr size_t charCount = 256;
 
     NeoFont();
     NeoFont(const NeoFont &) = default;
@@ -41,7 +41,7 @@ public:
     NeoCharacter &character(int index);
     const NeoCharacter &character(int index) const;
 
-    auto &characters() {
+    const auto &characters() const {
         return m_characters;
     }
 
@@ -58,8 +58,6 @@ public:
     bool decodeApplet(const Container &data);
 
     unsigned int archiveSize() const;
-    void loadArchive(const uint8_t *data);
-    void saveArchive(uint8_t *data) const;
 
 private:
     /* Do not use pointer member variables here. The loadArchive() and
